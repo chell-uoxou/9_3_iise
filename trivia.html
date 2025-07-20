@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Number Guessing Game</title>
+  </head>
+  <body>
+    <table
+      border="0"
+      width="800"
+      cellspacing="3"
+      cellpadding="5"
+      align="center"
+    >
+      <tr bgcolor="green">
+        <td colspan="3" align="center">
+          <font color="white"><b>Ruito Hasegawa's Web Page</b></font>
+        </td>
+      </tr>
+
+      <tr bgcolor="#d0e0c0">
+        <td colspan="3" align="center">
+          <p>
+            <a href="index.html">HOME</a> |
+            <a href="portfolio.html">PORTFOLIO</a> |
+            <a href="trivia.html" class="current">TRIVIA</a>
+          </p>
+        </td>
+      </tr>
+
+      <tr bgcolor="#ffe082">
+        <td valign="top" width="20%">
+          <b>Useful Links</b>
+          <ul>
+            <li>
+              <a href="https://developer.mozilla.org/" target="_blank"
+                >MDN Web Docs</a
+              >
+            </li>
+            <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+            <li><a href="https://codepen.io/" target="_blank">CodePen</a></li>
+          </ul>
+        </td>
+
+        <td valign="top" width="60%">
+          <h2>Number Guessing Game</h2>
+          <p>I'm thinking of a number between 1 and 100. Can you guess it?</p>
+          <input type="number" id="guessInput" min="1" max="100" />
+          <button onclick="checkGuess()">Submit</button>
+          <p id="resultMessage"></p>
+        </td>
+
+        <td valign="top" width="20%">
+          <form action="mailto:is0630hi@ed.ritsumei.ac.jp" class="contact-form">
+            <b>Contact Me</b><br />
+            Name:<br />
+            <input type="text" name="name" class="input-field" /><br />
+            Email:<br />
+            <input type="email" name="email" class="input-field" /><br />
+            Message:<br />
+            <textarea rows="4" name="message" class="textarea-field"></textarea
+            ><br />
+            <input type="submit" value="SEND" class="submit-button" />
+          </form>
+        </td>
+      </tr>
+
+      <tr bgcolor="green">
+        <td colspan="3" align="center">
+          <font color="white" size="2">
+            &copy; 2025 Ruito Hasegawa |
+            <a href="https://github.com/chell-uoxou" target="_blank"
+              ><font color="white">GitHub</font></a
+            >
+          </font>
+        </td>
+      </tr>
+    </table>
+
+    <script>
+      const answer = Math.floor(Math.random() * 100) + 1;
+      function checkGuess() {
+        const guess = parseInt(document.getElementById("guessInput").value);
+        const result = document.getElementById("resultMessage");
+        if (isNaN(guess)) {
+          result.textContent = "Please enter a valid number.";
+        } else if (guess < answer) {
+          result.textContent = "Too low! Try again.";
+        } else if (guess > answer) {
+          result.textContent = "Too high! Try again.";
+        } else {
+          result.textContent = `Correct! The number was ${answer}.`;
+        }
+      }
+    </script>
+  </body>
+</html>
