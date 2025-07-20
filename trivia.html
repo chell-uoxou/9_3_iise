@@ -47,15 +47,42 @@
         <td valign="top" width="60%">
           <h2>Number Guessing Game</h2>
           <p>I'm thinking of a number between 1 and 100. Can you guess it?</p>
-          <input
-            type="number"
-            id="guessInput"
-            min="1"
-            max="100"
-            class="input-field"
-          />
-          <button onclick="checkGuess()" class="submit-button">Submit</button>
+          <form onsubmit="event.preventDefault(); checkGuess();">
+            <label for="guessInput">Enter your guess:</label>
+            <input
+              type="number"
+              id="guessInput"
+              min="1"
+              max="100"
+              class="input-field"
+            />
+            <button class="submit-button">Submit</button>
+          </form>
           <p id="resultMessage"></p>
+
+          <table
+            id="historyTable"
+            border="1"
+            width="100%"
+            style="margin-top: 10px"
+          >
+            <thead>
+              <tr>
+                <th width="100px">Attempt</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+
+          <button
+            id="resetButton"
+            onclick="resetGame()"
+            class="submit-button"
+            style="display: none; margin-top: 10px"
+          >
+            Play Again
+          </button>
         </td>
 
         <td valign="top" width="20%">
@@ -67,15 +94,6 @@
             <input type="email" name="email" class="input-field" /><br />
             Message:<br />
             <textarea rows="4" name="message" class="textarea-field"></textarea
-            ><br />
-            Favorite Drink:<br />
-            <select name="drink" class="select-field">
-              <option value="">-- Select --</option>
-              <option value="coke">Coca-Cola</option>
-              <option value="pepsi">Pepsi</option>
-              <option value="sprite">Sprite</option>
-              <option value="fanta">Fanta</option>
-              <option value="ginger">Ginger Ale</option></select
             ><br />
             <input type="submit" value="SEND" class="submit-button" />
           </form>
@@ -95,19 +113,50 @@
     </table>
 
     <script>
-      const answer = Math.floor(Math.random() * 100) + 1;
+      let answer = Math.floor(Math.random() * 100) + 1;
+      let attempt = 1;
+
       function checkGuess() {
         const guess = parseInt(document.getElementById("guessInput").value);
         const result = document.getElementById("resultMessage");
+        const tableBody = document
+          .getElementById("historyTable")
+          .querySelector("tbody");
+
         if (isNaN(guess)) {
           result.textContent = "Please enter a valid number.";
-        } else if (guess < answer) {
-          result.textContent = "Too low! Try again.";
-        } else if (guess > answer) {
-          result.textContent = "Too high! Try again.";
-        } else {
-          result.textContent = `Correct! The number was ${answer}.`;
+          return;
         }
+
+        let message = "";
+        if (guess < answer) {
+          message = "Too low!";
+        } else if (guess > answer) {
+          message = "Too high!";
+        } else {
+          message = `Correct! The number was ${answer}.`;
+          document.getElementById("resetButton").style.display = "inline-block";
+        }
+
+        result.textContent = message;
+
+        const newRow = tableBody.insertRow(0);
+        const cellAttempt = newRow.insertCell(0);
+        const cellResult = newRow.insertCell(1);
+        cellAttempt.textContent = attempt++;
+        cellResult.textContent = `${guess} → ${message}`;
+      }
+
+      function resetGame() {
+        answer = Math.floor(Math.random() * 100) + 1;
+        attempt = 1;
+        document.getElementById("resultMessage").textContent = "";
+        document.getElementById("guessInput").value = "";
+        document.getElementById("resetButton").style.display = "none";
+        const tableBody = document
+          .getElementById("historyTable")
+          .querySelector("tbody");
+        tableBody.innerHTML = "";
       }
     </script>
   </body>
