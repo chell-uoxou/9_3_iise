@@ -46,3 +46,12 @@ a:hover {
 .submit-button:hover {
   background-color: #45a049;
 }
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  padding: 4px;
+  object-fit: cover;
+  float: right;
+}
